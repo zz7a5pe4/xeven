@@ -1,0 +1,7 @@
+server.document-root = "%SRVDOCROOT%"
+
+server.port = 8080
+server.bind                = "0.0.0.0"
+server.tag ="lighttpd"
+server.dir-listing = "enable"
+
