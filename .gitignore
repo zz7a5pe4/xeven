@@ -1,0 +1,5 @@
+cache
+stack
+devstack
+*.pyc
+*~

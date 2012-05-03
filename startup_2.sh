@@ -128,11 +128,18 @@ cp -f $CURWD/cache/cirros-0.3.0-x86_64-uec.tar.gz $CURWD/devstack/files/cirros-0
 #wget https://github.com/downloads/zz7a5pe4/x7_start/stack.tar.gz -O $CURWD/cache/stack.tar.gz
 
 
-if [ ! -f $CURWD/cache/stack.tar.gz ]; then
-  trackme wget https://github.com/downloads/zz7a5pe4/x7_start/stack.tar.gz -O $CURWD/cache/stack.tar.gz
+#if [ ! -f $CURWD/cache/stack.tar.gz ]; then
+#  trackme wget https://github.com/downloads/zz7a5pe4/x7_start/stack.tar.gz -O $CURWD/cache/stack.tar.gz
+#fi
+#rm -rf $CURWD/stack
+#tar xzf $CURWD/cache/stack.tar.gz -C $CURWD/ 
+
+if [ ! -f $CURWD/cache/stack.zip ]; then
+  trackme wget https://nodeload.github.com/zz7a5pe4/x7_dep/zipball/master -O $CURWD/cache/stack.zip
 fi
-rm -rf $CURWD/stack
-tar xzf $CURWD/cache/stack.tar.gz -C $CURWD/ 
+rm -rf $CURWD/stack $CURWD/zz7a5pe4-x7_dep*
+unzip $CURWD/cache/stack.zip -d $CURWD/ 
+mv $CURWD/zz7a5pe4-x7_dep*  $CURWD/stack
 
 sudo rm -rf /opt/stack
 sudo mv -f $CURWD/stack /opt
