@@ -3,3 +3,11 @@ stack
 devstack
 *.pyc
 *~
+conf/etc/dhcp/dhcpd.conf
+conf/etc/hosts
+conf/srv/tftp/vai/ubuntu-installer/amd64/boot-screens/txt.cfg
+www/preseed.cfg
+ubuntu_repo
+HOSTADDR
+log
+ssh.tar.gz

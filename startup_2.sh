@@ -76,6 +76,7 @@ sudo cp -rf $CONFDIR/srv/tftp/vai /srv/tftp/
 # preseed
 cp -f $CURWD/www/preseed.cfg.template $CURWD/www/preseed.cfg
 sed -i "s|%HOSTADDR%|$HOSTADDR|g" $CURWD/www/preseed.cfg
+cp -f $CURWD/www/preseed.cfg $CURWD/ubuntu_repo
 
 # dns setup/config
 ##TODO##

@@ -1,6 +1,6 @@
 d-i mirror/protocol string http
 d-i mirror/country string manual
-d-i mirror/http/hostname string %HOSTADDR%:8888
+d-i mirror/http/hostname string %HOSTADDR%:8080
 d-i mirror/http/directory string /ubuntu/
 d-i mirror/http/proxy string
 

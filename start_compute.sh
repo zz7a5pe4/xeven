@@ -18,7 +18,10 @@ tar xzf ssh.tar.gz
 
 sudo mkdir -p /opt
 sudo rm -rf /opt/stack
-sudo tar xzf $CURWD/stack.tar.gz -C /opt/
+#sudo tar xzf $CURWD/stack.tar.gz -C /opt/
+rm -rf $CURWD/zz7a5pe4-x7_dep*
+unzip $CURWD/stack.zip -d $CURWD
+sudo mv $CURWD/zz7a5pe4-x7_dep*  /opt/stack
 sudo chown -R stack:stack /opt/stack
 
 tar xzf $CURWD/devstack.tar.gz -C $CURWD
@@ -50,6 +53,7 @@ sudo sed -i  /etc/libvirt/libvirtd.conf -e "
 sudo sed -i /etc/default/libvirt-bin -e "s,libvirtd_opts=\"-d\",libvirtd_opts=\" -d -l\",g"
 sudo /etc/init.d/libvirt-bin restart
 
+killall screen
 cd $CURWD/devstack
 ./stack.sh
 
