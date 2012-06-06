@@ -33,7 +33,7 @@ fi
 sudo apt-get update
 
 # installn dependent package, ignore signature warning
-sudo apt-get install -y --force-yes git rabbitmq-server  python-kombu python-django python-paramiko python-setuptools
+sudo apt-get install -y --force-yes git rabbitmq-server  python-kombu python-django python-paramiko python-setuptools unzip
 
 # setup rabbitmq, change password of guest to guest
 sudo rabbitmqctl  -q change_password guest guest
