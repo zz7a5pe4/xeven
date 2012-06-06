@@ -57,3 +57,7 @@ killall screen
 cd $CURWD/devstack
 ./stack.sh
 
+if [ ! -f /etc/cron.hourly/fuck_libvirt ];then
+  sudo echo -e "#!/bin/bash\n/etc/init.d/libvirt-bin restart" > /etc/cron.hourly/fuck_libvirt
+  sudo chmod +x /etc/cron.hourly/fuck_libvirt
+fi
