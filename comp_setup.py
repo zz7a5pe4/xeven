@@ -48,7 +48,7 @@ def main(co):
         print l.rstrip()
     x = open("HOSTADDR").readline().rstrip();
     if x:
-    	o = s.execute("sudo mount -t nfs {0}:/srv/instances /opt/stack/nova/instances".format(x))
+    	o = s.execute("sudo mount -t nfs4 -o noatime {0}:/ /opt/stack/nova/instances".format(x))
     if(o):
         print("mount errro");
     s.close()
