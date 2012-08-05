@@ -12,7 +12,7 @@ elif [ $1 == "server" ];then
 else
   echo "you should tell me which service you use: $0 all or $0 server"
 fi
-exit 0
+
 X7WORKDIR=`pwd`
 CONFDIR=$X7WORKDIR/conf
 CURWD=$X7WORKDIR
