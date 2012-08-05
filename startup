@@ -1,5 +1,18 @@
 #!/bin/bash
 
+if [ $# == 0 ]; then
+  echo "you must tell me which service you use: $0 all or $0 server"
+  exit -1
+fi
+
+if [ $1 == "all" ];then
+  ln -f -s localrc_server_aio_template localrc_server_template
+elif [ $1 == "server" ];then 
+  ln -f -s localrc_server_only_template localrc_server_template
+else
+  echo "you should tell me which service you use: $0 all or $0 server"
+fi
+exit 0
 X7WORKDIR=`pwd`
 CONFDIR=$X7WORKDIR/conf
 CURWD=$X7WORKDIR
