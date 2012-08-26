@@ -1,9 +1,9 @@
 #!/bin/bash -x
 
-set -e
+#set -e
 function trackme 
 {
-    $CURWD/notify_status.py "log" "$@"
+    #$CURWD/notify_status.py "log" "$@"
     $@
     local EXIT_CODE=$?
     return $EXIT_CODE
@@ -37,17 +37,17 @@ cd $HOME
 tar czf $CURWD/ssh.tar.gz .ssh/
 
 # ntp server
-trackme sudo apt-get install -y --force-yes ntp
+#trackme sudo apt-get install -y --force-yes ntp
 grep "server 127.127.1.0" /etc/ntp.conf > /dev/null && true
 if [ "$?" -ne "0" ]; then
-  trackme echo "configure ntp"
+  #trackme echo "configure ntp"
   sudo sed -i 's/server ntp.ubuntu.com/serverntp.ubuntu.com\nserver 127.127.1.0\nfudge 127.127.1.0 stratum 10/g' /etc/ntp.conf
   sudo service ntp restart
 fi
 
 
 # prepare for pxe installation
-trackme sudo apt-get install -y --force-yes fai-quickstart
+#trackme sudo apt-get install -y --force-yes fai-quickstart
 
 # dhcp config
 cp -f $CONFDIR/etc/dhcp/dhcpd.conf.template $CONFDIR/etc/dhcp/dhcpd.conf
@@ -97,43 +97,26 @@ if [ "$?" -ne "0" ]; then
     sudo /etc/init.d/idmapd restart
 fi
 
-###################
-mkdir -p $CURWD/www/ubuntu/
-if [ -f $CURWD/ubuntu-11.10-alternate-amd64.iso ]; then
-  sudo mount -o loop $CURWD/ubuntu-11.10-alternate-amd64.iso $CURWD/www/ubuntu/ || true
-else
-  echo "please manually mount ubuntu 11.10 alternate image to $CURWD/www/ubuntu/ firsy if you want to net-install compute node"
-fi
 
-#cd $CURWD/www/
-#python -m SimpleHTTPServer 8888 &
-##################
-##TODO##
 
 cp -f $CONFDIR/etc/apt/sources.list.template $CONFDIR/sources.list.client
 sed -i "s|%HOSTADDR%|$HOSTADDR|g" $CONFDIR/sources.list.client
 
 #devstack & openstack packages
-mkdir -p $CURWD/cache
-if [ ! -f $CURWD/cache/devstack.tar.gz ]; then
-  trackme wget https://github.com/downloads/zz7a5pe4/x7_start/devstack.tar.gz -O $CURWD/cache/devstack.tar.gz
-fi
-rm -rf $CURWD/devstack
-tar xzf $CURWD/cache/devstack.tar.gz -C $CURWD/ 
+#mkdir -p $CURWD/cache
+#if [ ! -f $CURWD/cache/devstack.tar.gz ]; then
+#  trackme wget https://github.com/downloads/zz7a5pe4/x7_start/devstack.tar.gz -O $CURWD/cache/devstack.tar.gz
+#fi
+
+#rm -rf $CURWD/devstack
+#tar xzf $CURWD/cache/devstack.tar.gz -C $CURWD/ 
+( cd $CURWD/ && tar czf $CURWD/cache/devstack.tar.gz $CURWD/devstack )
 
 if [ ! -f $CURWD/cache/cirros-0.3.0-x86_64-uec.tar.gz ]; then
   wget https://github.com/downloads/zz7a5pe4/x7_start/cirros-0.3.0-x86_64-uec.tar.gz -O $CURWD/cache/cirros-0.3.0-x86_64-uec.tar.gz
 fi
 cp -f $CURWD/cache/cirros-0.3.0-x86_64-uec.tar.gz $CURWD/devstack/files/cirros-0.3.0-x86_64-uec.tar.gz
 
-#wget https://github.com/downloads/zz7a5pe4/x7_start/stack.tar.gz -O $CURWD/cache/stack.tar.gz
-
-
-#if [ ! -f $CURWD/cache/stack.tar.gz ]; then
-#  trackme wget https://github.com/downloads/zz7a5pe4/x7_start/stack.tar.gz -O $CURWD/cache/stack.tar.gz
-#fi
-#rm -rf $CURWD/stack
-#tar xzf $CURWD/cache/stack.tar.gz -C $CURWD/ 
 
 if [ ! -f $CURWD/cache/stack.zip ]; then
   trackme wget https://nodeload.github.com/zz7a5pe4/x7_dep/zipball/master -O $CURWD/cache/stack.zip
@@ -146,15 +129,13 @@ sudo rm -rf /opt/stack
 sudo mv -f $CURWD/stack /opt
 sudo chown -R $MYID:$MYID /opt/stack
 
-PYDEP="pep8 python-libxml2 python-prettytable pylint python-amqplib python-anyjson python-argparse python-bcrypt python-boto python-carrot python-cheetah   python-cherrypy3 python-cloudfiles python-configobj python-coverage python-decorator python-dev python-dingus python-django   python-django-mailer python-django-nose python-django-registration python-docutils python-eventlet python-feedparser python-formencode   python-gflags python-greenlet python-iso8601 python-jinja2 python-kombu python-libvirt python-lockfile python-logilab-astng   python-logilab-common python-lxml python-m2crypto python-markupsafe python-migrate python-mox python-mysqldb python-netaddr   python-netifaces python-nose python-numpy python-openid python-paramiko python-paste python-pastedeploy python-pastescript python-pip   python-pygments python-pysqlite2 python-roman python-routes python-scgi python-setuptools python-sphinx python-sqlalchemy   python-sqlalchemy-ext python-stompy python-suds python-tempita python-tk python-unittest2 python-utidylib python-virtualenv python-webob   python-xattr python-yaml python2.7-dev python-dateutil   python-django   python-egenix-mxdatetime python-egenix-mxtools   python-imaging python-libxml2   python-logilab-common   python-lxml python-support python-pkg-resources python-httplib2"
-
 mkdir -p $CURWD/cache/apt
 mkdir -p $CURWD/cache/img
 mkdir -p $CURWD/cache/pip
 mkdir -p $CURWD/cache/piptmp
 sudo rm -rf $CURWD/cache/piptmp/* 
 
-trackme sudo apt-get install --force-yes -y $PYDEP
+#trackme sudo apt-get install --force-yes -y $PYDEP
 
 # image and pip
 if [ -d /media/x7_usb/ ]; then
@@ -176,7 +157,7 @@ tar xzf $CURWD/cache/pip/passlib-1.5.3.tar.gz -C $CURWD/cache/piptmp/
 tar xzf $CURWD/cache/pip/django-nose-selenium-0.7.3.tar.gz -C $CURWD/cache/piptmp/
 tar xzf $CURWD/cache/pip/pam-0.1.4.tar.gz -C $CURWD/cache/piptmp/
 tar xzf $CURWD/cache/pip/pycrypto-2.3.tar.gz -C $CURWD/cache/piptmp/
-[ -f $CURWD/cache/pip/pycrypto-2.3.tar.gz ] && tar xzf $CURWD/cache/pip/WebOb-1.0.8.tar.gz -C $CURWD/cache/piptmp/
+[ -f $CURWD/cache/pip/WebOb-1.0.8.tar.gz ] && tar xzf $CURWD/cache/pip/WebOb-1.0.8.tar.gz -C $CURWD/cache/piptmp/
 chmod -R +r $CURWD/cache/piptmp || true
 
 
@@ -225,8 +206,8 @@ sed -i "s|%BRDADDR%|$BRDADDR|g" $CURWD/localrc_compute
 
 cd $CURWD/devstack
 source ./openrc admin admin
-python $CURWD/migrate_monitor.py &
+#python $CURWD/migrate_monitor.py &
 
-$CURWD/notify_status.py cmd complete
+#$CURWD/notify_status.py cmd complete
 
 exit 0

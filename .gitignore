@@ -1,6 +1,5 @@
 cache
 stack
-devstack
 *.pyc
 *~
 conf/etc/dhcp/dhcpd.conf

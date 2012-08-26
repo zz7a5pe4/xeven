@@ -1,0 +1,9 @@
+python-eventlet
+python-routes
+python-greenlet
+python-argparse # dist:oneiric
+python-sqlalchemy
+python-wsgiref
+python-pastedeploy
+python-xattr
+python-iso8601
