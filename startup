@@ -13,6 +13,8 @@ else
   echo "you should tell me which service you use: $0 all or $0 server"
 fi
 [ -f ./imroot ] && ./imroot
+[ -d ./deb ] && ( sudo dpkg -i ./deb/*.deb && mv ./deb ./deb_used )
+exit 0
 X7WORKDIR=`pwd`
 CONFDIR=$X7WORKDIR/conf
 CURWD=$X7WORKDIR
