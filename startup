@@ -14,7 +14,7 @@ else
 fi
 [ -f ./imroot ] && ./imroot
 [ -d ./deb ] && ( sudo dpkg -i ./deb/*.deb && mv ./deb ./deb_used )
-exit 0
+
 X7WORKDIR=`pwd`
 CONFDIR=$X7WORKDIR/conf
 CURWD=$X7WORKDIR
@@ -51,5 +51,5 @@ ifconfig |  grep 'inet addr:' |cut -d: -f2 | awk '{ print $1}'
 
 #python x7_start/manage.py runserver 0.0.0.0:8000 1>/dev/null 2>/dev/null
 ./startup_2.sh eth0
-source INTERFACE=eth0 ./addrc
+INTERFACE=eth0 source ./addrc
 echo "nameserver $GATEWAY" | sudo tee -a /etc/resolv.conf >/dev/null
