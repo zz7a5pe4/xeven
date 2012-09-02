@@ -29,11 +29,11 @@ CURWD=$X7WORKDIR
 MYID=`whoami`
 
 # ssh id/user setup
-if [ ! -f ~/.ssh/id_rsa ]; then
-  ssh-keygen -b 1024 -t rsa -P "" -f $HOME/.ssh/id_rsa
+if [ ! -f /home/$MYID/.ssh/id_rsa ]; then
+  ssh-keygen -b 1024 -t rsa -P "" -f /home/$MYID/.ssh/id_rsa
 fi
-cat $HOME/.ssh/id_rsa.pub  >> $HOME/.ssh/authorized_keys
-cd $HOME
+cat /home/$MYID/.ssh/id_rsa.pub  >> /home/$MYID/.ssh/authorized_keys
+cd /home/$MYID 
 tar czf $CURWD/ssh.tar.gz .ssh/
 
 # ntp server

@@ -743,15 +743,15 @@ MYSQL_PRESEED
     # while ``.my.cnf`` is not needed for openstack to function, it is useful
     # as it allows you to access the mysql databases via ``mysql nova`` instead
     # of having to specify the username/password each time.
-    if [[ ! -e $HOME/.my.cnf ]]; then
-        cat <<EOF >$HOME/.my.cnf
-[client]
-user=$MYSQL_USER
-password=$MYSQL_PASSWORD
-host=$MYSQL_HOST
-EOF
-        chmod 0600 $HOME/.my.cnf
-    fi
+    #if [[ ! -e $HOME/.my.cnf ]]; then
+    #    cat <<EOF >$HOME/.my.cnf
+#[client]
+#user=$MYSQL_USER
+#password=$MYSQL_PASSWORD
+#host=$MYSQL_HOST
+#EOF
+    #    chmod 0600 $HOME/.my.cnf
+    #fi
 
     # Install and start mysql-server
     install_package mysql-server
