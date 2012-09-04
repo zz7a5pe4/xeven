@@ -3,6 +3,8 @@
 #sudo sed -i 's,8888/ubuntu,9999/cnubuntu,g' /etc/apt/sources.list
 sudo cp -f sources.list.client /etc/apt/sources.list
 sudo apt-get update
+sudo mkdir /opt/log
+sudo chmod 777 /opt/log
 
 HOSTADDR=$(ifconfig | grep -A1 eth0 | grep 'inet addr:' |cut -d: -f2 | awk '{ print $1}')
 BRDADDR=$(ifconfig | grep -A1 "$INTERFACE" | grep 'inet addr:' |cut -d: -f3 | awk '{ print $1}')
@@ -21,6 +23,7 @@ sudo rm -rf /opt/stack
 #sudo tar xzf $CURWD/stack.tar.gz -C /opt/
 rm -rf $CURWD/zz7a5pe4-x7_dep*
 unzip $CURWD/stack.zip -d $CURWD
+sudo rm -f /opt/stack
 sudo mv $CURWD/zz7a5pe4-x7_dep*  /opt/stack
 sudo chown -R stack:stack /opt/stack
 
@@ -32,9 +35,9 @@ sed -i "s|%BRDADDR%|$BRDADDR|g" $CURWD/devstack/localrc
 
 if [ -f $CURWD/pip.tar.gz ];then
   tar xzf $CURWD/pip.tar.gz -C $CURWD
-  pippackages=`ls $CURWD/pip`
+  pippackages=`ls $CURWD/piptmp`
   for package in ${pippackages}; do
-    cd $CURWD/pip/$package && sudo python setup.py install && cd -
+    cd $CURWD/piptmp/$package && sudo python setup.py install && cd -
   done
 fi
 
@@ -57,7 +60,7 @@ killall screen
 cd $CURWD/devstack
 ./stack.sh
 
-if [ ! -f /etc/cron.hourly/fuck_libvirt ];then
-  sudo echo -e "#!/bin/bash\n/etc/init.d/libvirt-bin restart" > /etc/cron.hourly/fuck_libvirt
-  sudo chmod +x /etc/cron.hourly/fuck_libvirt
-fi
+#if [ ! -f /etc/cron.hourly/fuck_libvirt ];then
+#  sudo echo -e "#!/bin/bash\n/etc/init.d/libvirt-bin restart" > /etc/cron.hourly/fuck_libvirt
+#  sudo chmod +x /etc/cron.hourly/fuck_libvirt
+#fi

@@ -91,8 +91,8 @@ sudo mkdir -p /srv/instances
 sudo chmod 777 /srv/instances
 grep "/srv/instances $HOSTADDR/24" /etc/exports > /dev/null  && true
 if [ "$?" -ne "0" ]; then
-    echo "/srv/instances $HOSTADDR/24(sync,rw,fsid=0,no_subtree_check,no_root_squash)" | sudo tee -a /etc/exports > /dev/null
-    echo "/srv/instances 127.0.0.1(sync,rw,fsid=0,no_subtree_check,no_root_squash)" | sudo tee -a  /etc/exports > /dev/null
+    echo "/srv/instances $HOSTADDR/24(async,rw,fsid=0,no_subtree_check,no_root_squash)" | sudo tee -a /etc/exports > /dev/null
+    echo "/srv/instances 127.0.0.1(async,rw,fsid=0,no_subtree_check,no_root_squash)" | sudo tee -a  /etc/exports > /dev/null
     sudo /etc/init.d/nfs-kernel-server restart
     sudo /etc/init.d/idmapd restart
 fi
@@ -182,10 +182,12 @@ sed -i "s|%HOSTADDR%|$HOSTADDR|g" localrc
 sed -i "s|%INTERFACE%|$INTERFACE|g" localrc
 sed -i "s|%BRDADDR%|$BRDADDR|g" localrc
 
+sudo mkdir /opt/log
+sudo chmod 777 /opt/log
 grep "add_nova_opt \"logdir=" stack.sh > /dev/null && true
 # "0" => found
 if [ "$?" -ne "0" ]; then
-  sed -i "s,add_nova_opt \"verbose=True\",add_nova_opt \"verbose=True\"\nadd_nova_opt \"logdir=$CURWD/log\",g" stack.sh
+  sed -i "s,add_nova_opt \"verbose=True\",add_nova_opt \"verbose=True\"\nadd_nova_opt \"logdir=/opt/log\",g" stack.sh
 fi
 trackme ./stack.sh
 sudo mkdir -p /opt/stack/nova/instances
@@ -207,7 +209,8 @@ sed -i "s|%BRDADDR%|$BRDADDR|g" $CURWD/localrc_compute
 cd $CURWD/devstack
 source ./openrc admin admin
 #python $CURWD/migrate_monitor.py &
-
+cd $CURWD/
+tar czf cache/devstack.tar.gz devstack/
 #$CURWD/notify_status.py cmd complete
 
 exit 0
