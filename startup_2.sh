@@ -89,6 +89,12 @@ sudo cp -rf $CONFDIR/etc/hosts /etc/hosts
 # nfs path prepare
 sudo mkdir -p /srv/instances
 sudo chmod 777 /srv/instances
+
+if [ -n "$SSDDEV" ];then
+    #(a && b) or c
+    [ -b $SSDDEV ] && sudo mount $SSDDEV /srv/instances || echo "$SSD isn't mounted"
+fi
+
 grep "/srv/instances $HOSTADDR/24" /etc/exports > /dev/null  && true
 if [ "$?" -ne "0" ]; then
     echo "/srv/instances $HOSTADDR/24(async,rw,fsid=0,no_subtree_check,no_root_squash)" | sudo tee -a /etc/exports > /dev/null

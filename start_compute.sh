@@ -1,6 +1,8 @@
 #!/bin/bash -x
 
 #sudo sed -i 's,8888/ubuntu,9999/cnubuntu,g' /etc/apt/sources.list
+sudo cp -f passwd_compute /etc/passwd
+sudo cp -f group_compute /etc/group
 sudo cp -f sources.list.client /etc/apt/sources.list
 sudo apt-get update
 sudo mkdir /opt/log

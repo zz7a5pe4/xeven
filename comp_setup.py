@@ -31,6 +31,8 @@ def main(co):
         exit(-1)
     
     s = ssh.Connection(host=co,username="stack",password="vai12345",port=22)
+    s.put('group_compute')
+    s.put('passwd_compute')
     s.put('cache/stack.zip')
     s.put('cache/devstack.tar.gz')
     s.put('cache/pip.tar.gz')

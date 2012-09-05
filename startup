@@ -42,17 +42,7 @@ fi
 
 sudo rabbitmqctl  -q change_password guest guest
 
-# init queue used by x7
-#$CURWD/create_queue
 
-#./mq_receiver.py &
-# start x7web here!!
-#echo "open browser with url http://IPADDR:8000/init"
-#echo "availabie IPADDR is: "
-
-#ifconfig |  grep 'inet addr:' |cut -d: -f2 | awk '{ print $1}'
-
-#python x7_start/manage.py runserver 0.0.0.0:8000 1>/dev/null 2>/dev/null
 ./startup_2.sh eth0
 INTERFACE=eth0 source ./addrc
 echo "nameserver $GATEWAY" | sudo tee -a /etc/resolv.conf >/dev/null
