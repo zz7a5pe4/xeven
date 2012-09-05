@@ -6,7 +6,7 @@ import sys
 import ssh
 import subprocess
 import time
-
+import pexpect
 
 def main(co):
     count = 1024
@@ -42,12 +42,21 @@ def main(co):
     s.put('ssh.tar.gz')
     s.put('conf/sources.list.client')
     s.execute("chmod +x imroot");
+    s.execute("tar xzf ssh.tar.gz");
     o = s.execute('echo vai12345 | /home/stack/imroot')
     #print o
     s.execute("chmod +x start_compute.sh")
-    o = s.execute('/home/stack/start_compute.sh')
-    for l in o:
-        print l.rstrip()
+    #o = s.execute('/home/stack/start_compute.sh')
+    o = pexpect.spawn ("ssh stack@{0} ./start_compute.sh".format(co), timeout=600)
+    while(1):
+        i = o.readline()
+        #print len(i)
+        if i:
+            print i.rstrip()
+        else:
+            print "xendx"
+            break
+    
     x = open("HOSTADDR").readline().rstrip();
     if x:
     	o = s.execute("sudo mount -t nfs4 -o noatime {0}:/ /opt/stack/nova/instances".format(x))
