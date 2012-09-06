@@ -605,8 +605,8 @@ function get_packages() {
 }
 
 # install apt requirements
-apt_get update
-install_package $(get_packages $FILES/apts)
+#apt_get update
+install_package $(get_packages $FILES/apts) || true
 
 # install python requirements
 pip_install $(get_packages $FILES/pips | sort -u)
