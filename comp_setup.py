@@ -47,7 +47,19 @@ def main(co):
     #print o
     s.execute("chmod +x start_compute.sh")
     #o = s.execute('/home/stack/start_compute.sh')
+    o = pexpect.spawn ("ssh stack@{0} ls".format(co), timeout=600)
+    ssh_newkey = 'Are you sure you want to continue connecting'
+    i=o.expect([ssh_newkey,pexpect.EOF])
+    if i==0:
+        print "I say yes"
+        o.sendline('yes')
+    elif i==1:
+        print "I either got key or connection timeout"
+        pass
+    
+
     o = pexpect.spawn ("ssh stack@{0} ./start_compute.sh".format(co), timeout=600)
+
     while(1):
         i = o.readline()
         #print len(i)

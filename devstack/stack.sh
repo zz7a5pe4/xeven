@@ -1375,6 +1375,7 @@ rm -f $NOVA_DIR/bin/nova.conf
 rm -f $NOVA_CONF_DIR/$NOVA_CONF
 add_nova_opt "[DEFAULT]"
 add_nova_opt "verbose=True"
+add_nova_opt "logdir=/opt/log"
 add_nova_opt "auth_strategy=keystone"
 add_nova_opt "allow_resize_to_same_host=True"
 add_nova_opt "root_helper=sudo /usr/local/bin/nova-rootwrap"
