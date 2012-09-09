@@ -47,3 +47,7 @@ sudo rabbitmqctl  -q change_password guest guest
 INTERFACE=eth0 source ./addrc
 echo "nameserver $GATEWAY" | sudo tee -a /etc/resolv.conf >/dev/null
 
+if [ $1 == "all" ];then
+  sudo mount -t nfs4 -o noatime 127.0.0.1:/ /opt/stack/nova/instances
+fi
+

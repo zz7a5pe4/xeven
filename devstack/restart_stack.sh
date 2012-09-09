@@ -781,5 +781,7 @@ if [[ -n "$EXTRA_FLAGS" ]]; then
     echo "WARNING: EXTRA_FLAGS is defined and may need to be converted to EXTRA_OPTS"
 fi
 
+sudo mount -t nfs4 -o noatime $SERVICE_HOST:/ /opt/stack/nova/instances
+
 # Indicate how long this took to run (bash maintained variable 'SECONDS')
 echo "stack.sh completed in $SECONDS seconds."
