@@ -6,9 +6,11 @@ if [ $# == 0 ]; then
 fi
 
 if [ $1 == "all" ];then
-  ln -f -s localrc_server_aio_template localrc_server_template
+  #ln -f -s localrc_server_aio_template localrc_server_template
+  cat localrc_server_template
 elif [ $1 == "server" ];then 
-  ln -f -s localrc_server_only_template localrc_server_template
+  #ln -f -s localrc_server_only_template localrc_server_template
+  cat localrc_server_template
 else
   echo "you should tell me which service you use: $0 all or $0 server"
 fi

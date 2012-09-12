@@ -131,6 +131,7 @@ rm -rf $CURWD/stack $CURWD/zz7a5pe4-x7_dep*
 unzip $CURWD/cache/stack.zip -d $CURWD/ 
 mv $CURWD/zz7a5pe4-x7_dep*  $CURWD/stack
 
+sudo umount /opt/stack/nova/instances/
 sudo rm -rf /opt/stack
 sudo mv -f $CURWD/stack /opt
 sudo chown -R $MYID:$MYID /opt/stack
