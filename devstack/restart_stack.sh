@@ -721,6 +721,13 @@ screen_it n-cauth "cd $NOVA_DIR && ./bin/nova-consoleauth"
 screen_it horizon "cd $HORIZON_DIR && sudo tail -f /var/log/apache2/error.log"
 screen_it swift "cd $SWIFT_DIR && $SWIFT_DIR/bin/swift-proxy-server ${SWIFT_CONFIG_DIR}/proxy-server.conf -v"
 
+#Login iscsi
+
+if [[ -x $TOP_DIR/iscsi_login.sh ]]; then
+
+    $TOP_DIR/iscsi_login.sh
+
+fi
 
 # Run local script
 # ================
