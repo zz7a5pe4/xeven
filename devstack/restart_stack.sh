@@ -778,3 +778,4 @@ sudo mount -t nfs4 -o noatime $SERVICE_HOST:/ /opt/stack/nova/instances
 
 # Indicate how long this took to run (bash maintained variable 'SECONDS')
 echo "stack.sh completed in $SECONDS seconds."
+(cd /home/xeven && ./libvirt_restart.py)

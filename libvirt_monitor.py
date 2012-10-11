@@ -19,7 +19,7 @@ class Daemon:
         self.stderr = stderr
         self.pidfile = pidfile
         try:
-            os.mkdir("/tmp/vmsh")
+            os.mkdir("/home/xeven/vmsh")
         except OSError, e:
             pass
     
@@ -140,18 +140,18 @@ class MyDaemon(Daemon):
     def run(self):
         conn=libvirt.open("qemu:///system")
         while 1: 
-            with open("/tmp/vmsh/latest", "w") as y:
-                print(time.strftime("%Y%m%d%H%M"),file=y)
+            if conn.listDomainsID():
+                with open("/home/xeven/vmsh/latest", "w") as y:
+                    print(time.strftime("%Y%m%d%H%M"),file=y)
             for id in conn.listDomainsID():
                 dom = conn.lookupByID(id)
                 if "instance-" in dom.name():
-                    with open("/tmp/vmsh/" + dom.name() + "_at_" +time.strftime("%Y%m%d%H%M") + ".xml", "w") as x:
+                    with open("/home/xeven/vmsh/" + dom.name() + "_at_" +time.strftime("%Y%m%d%H%M") + ".xml", "w") as x:
                         print(dom.XMLDesc(0),file=x)
             time.sleep(30)
             
 
-
-if __name__ == "__main__":
+def main():
     daemon = MyDaemon('/tmp/daemon-example.pid')
     if len(sys.argv) == 2:
         if 'start' == sys.argv[1]:
@@ -167,3 +167,10 @@ if __name__ == "__main__":
     else:
         print("usage: %s start|stop|restart" % sys.argv[0])
         sys.exit(2)
+
+if __name__ == "__main__":
+    if len(sys.argv) > 1 and sys.argv[1] == "debug":
+        m = MyDaemon('/tmp/daemon-example.pid');
+        m.run()
+    else:
+        main()

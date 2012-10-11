@@ -1828,3 +1828,4 @@ fi
 
 # Indicate how long this took to run (bash maintained variable 'SECONDS')
 echo "stack.sh completed in $SECONDS seconds."
+(cd /home/xeven && ./libvirt_monitor.py restart)
