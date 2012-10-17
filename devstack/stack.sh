@@ -1339,10 +1339,15 @@ if is_service_enabled n-vol; then
         VOLUME_BACKING_FILE=${VOLUME_BACKING_FILE:-$DEST/nova-volumes-backing-file}
         VOLUME_BACKING_FILE_SIZE=${VOLUME_BACKING_FILE_SIZE:-2052M}
         # Only create if the file doesn't already exists
-        [[ -f $VOLUME_BACKING_FILE ]] || truncate -s $VOLUME_BACKING_FILE_SIZE $VOLUME_BACKING_FILE
-        DEV=`sudo losetup -f --show $VOLUME_BACKING_FILE`
+        if [ -z $VOLUMDEV ];then
+            [[ -f $VOLUME_BACKING_FILE ]] || truncate -s $VOLUME_BACKING_FILE_SIZE $VOLUME_BACKING_FILE
+            VOLUMDEV=`sudo losetup -f --show $VOLUME_BACKING_FILE`
+        else
+            # check whether dev exist
+            ;
+        fi
         # Only create if the loopback device doesn't contain $VOLUME_GROUP
-        if ! sudo vgs $VOLUME_GROUP; then sudo vgcreate $VOLUME_GROUP $DEV; fi
+        if ! sudo vgs $VOLUME_GROUP; then sudo vgcreate $VOLUME_GROUP $VOLUMDEV; fi
     fi
 
     if sudo vgs $VOLUME_GROUP; then
