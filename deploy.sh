@@ -12,4 +12,4 @@ if [ "$?" -ne "0" ];
     echo "already in sudoer"
 fi
 source /home/xeven/x7env
-(cd /home/xeven && sudo -u $ADMINUSERNAME ./startup all)
+cd /home/xeven && sudo -E -u $ADMINUSERNAME ./startup all

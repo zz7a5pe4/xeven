@@ -43,10 +43,10 @@ fi
 
 
 sudo rabbitmqctl  -q change_password guest guest
-
-
-./startup_2.sh eth0
-INTERFACE=eth0 source ./addrc
+echo "xxxxxx $INTERFACE"
+INTERFACE=${INTERFACE:-eth0}
+./startup_2.sh $INTERFACE
+source ./addrc
 echo "nameserver $GATEWAY" | sudo tee -a /etc/resolv.conf >/dev/null
 
 if [ $1 == "all" ];then
