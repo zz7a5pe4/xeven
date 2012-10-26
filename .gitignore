@@ -1,4 +1,6 @@
 cache
+x7env
+sources.list
 stack
 *.pyc
 *~
