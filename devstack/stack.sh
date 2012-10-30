@@ -1344,7 +1344,7 @@ if is_service_enabled n-vol; then
             VOLUMDEV=`sudo losetup -f --show $VOLUME_BACKING_FILE`
         else
             # check whether dev exist
-            ;
+            echo "";
         fi
         # Only create if the loopback device doesn't contain $VOLUME_GROUP
         if ! sudo vgs $VOLUME_GROUP; then sudo vgcreate $VOLUME_GROUP $VOLUMDEV; fi
