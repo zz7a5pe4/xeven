@@ -574,7 +574,7 @@ function screen_it {
         # sleep to allow bash to be ready to be send the command - we are
         # creating a new window in screen and then sends characters, so if
         # bash isn't running by the time we send the command, nothing happens
-        sleep 1.5
+        sleep 3
 
         if [[ -n ${SCREEN_LOGDIR} ]]; then
             screen -S stack -p $1 -X logfile ${SCREEN_LOGDIR}/screen-${1}.${CURRENT_LOG_TIME}.log
@@ -710,7 +710,7 @@ fi
 # within the context of our original shell (so our groups won't be updated).
 # Use 'sg' to execute nova-compute as a member of the libvirtd group.
 # We don't check for is_service_enable as screen_it does it for us
-screen_it n-cpu "cd $NOVA_DIR && sg libvirtd $NOVA_DIR/bin/nova-compute"
+
 screen_it n-crt "cd $NOVA_DIR && $NOVA_DIR/bin/nova-cert"
 screen_it n-vol "cd $NOVA_DIR && $NOVA_DIR/bin/nova-volume"
 screen_it n-net "cd $NOVA_DIR && $NOVA_DIR/bin/nova-network"
@@ -720,7 +720,7 @@ screen_it n-xvnc "cd $NOVA_DIR && ./bin/nova-xvpvncproxy --config-file $NOVA_CON
 screen_it n-cauth "cd $NOVA_DIR && ./bin/nova-consoleauth"
 screen_it horizon "cd $HORIZON_DIR && sudo tail -f /var/log/apache2/error.log"
 screen_it swift "cd $SWIFT_DIR && $SWIFT_DIR/bin/swift-proxy-server ${SWIFT_CONFIG_DIR}/proxy-server.conf -v"
-
+screen_it n-cpu "cd $NOVA_DIR && sg libvirtd $NOVA_DIR/bin/nova-compute"
 #Login iscsi
 
 if [[ -x $TOP_DIR/iscsi_login.sh ]]; then
