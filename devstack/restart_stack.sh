@@ -711,16 +711,42 @@ fi
 # Use 'sg' to execute nova-compute as a member of the libvirtd group.
 # We don't check for is_service_enable as screen_it does it for us
 
+function wait_service_start {
+    set +o xtrace
+    wait_time=120
+    echo "wait nova-$1 service start ......"
+    while [[ $wait_time -gt 0 ]]; do
+        SCHEDULER_VAL=`sudo rabbitmqctl list_queues |grep -m 1 "$1.0"|cut -d' ' -f1 | awk '{print $1}'`
+        if [ "$SCHEDULER_VAL" == "$1" ]
+        then
+            sleep 2
+            break;
+        else
+            wait_time=$(($wait_time-1))
+            sleep 1
+        fi
+    done
+    set -o xtrace
+}
+
+
 screen_it n-crt "cd $NOVA_DIR && $NOVA_DIR/bin/nova-cert"
-screen_it n-vol "cd $NOVA_DIR && $NOVA_DIR/bin/nova-volume"
-screen_it n-net "cd $NOVA_DIR && $NOVA_DIR/bin/nova-network"
+
 screen_it n-sch "cd $NOVA_DIR && $NOVA_DIR/bin/nova-scheduler"
+wait_service_start scheduler
+
+screen_it n-vol "cd $NOVA_DIR && $NOVA_DIR/bin/nova-volume"
+wait_service_start volume
+
+screen_it n-net "cd $NOVA_DIR && $NOVA_DIR/bin/nova-network"
+wait_service_start network 
+
+screen_it n-cpu "cd $NOVA_DIR && sg libvirtd $NOVA_DIR/bin/nova-compute"
 screen_it n-novnc "cd $NOVNC_DIR && ./utils/nova-novncproxy --config-file $NOVA_CONF_DIR/$NOVA_CONF --web ."
 screen_it n-xvnc "cd $NOVA_DIR && ./bin/nova-xvpvncproxy --config-file $NOVA_CONF_DIR/$NOVA_CONF"
 screen_it n-cauth "cd $NOVA_DIR && ./bin/nova-consoleauth"
 screen_it horizon "cd $HORIZON_DIR && sudo tail -f /var/log/apache2/error.log"
 screen_it swift "cd $SWIFT_DIR && $SWIFT_DIR/bin/swift-proxy-server ${SWIFT_CONFIG_DIR}/proxy-server.conf -v"
-screen_it n-cpu "cd $NOVA_DIR && sg libvirtd $NOVA_DIR/bin/nova-compute"
 #Login iscsi
 
 if [[ -x $TOP_DIR/iscsi_login.sh ]]; then
